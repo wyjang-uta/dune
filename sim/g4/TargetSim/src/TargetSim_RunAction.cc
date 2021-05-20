@@ -80,7 +80,8 @@ void TargetSim_RunAction::BeginOfRunAction(const G4Run*)
   // Create Ntuple
   analysisManager->CreateNtuple("DUNETargetSim", "DUNE BSM TargetSim Study");
   analysisManager->CreateNtupleSColumn("proc");
-  analysisManager->CreateNtupleDColumn("energy");
+  analysisManager->CreateNtupleDColumn("kineticEnergy");
+  analysisManager->CreateNtupleDColumn("totalEnergy");
   analysisManager->CreateNtupleDColumn("x");
   analysisManager->CreateNtupleDColumn("y");
   analysisManager->CreateNtupleDColumn("z");

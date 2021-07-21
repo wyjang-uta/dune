@@ -93,14 +93,14 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   // Default settings
   analysisManager->SetNtupleMerging(true);
   analysisManager->SetVerboseLevel(1);
-  analysisManager->SetFileName("TAMU_ALP");
+  analysisManager->SetFileName("DUNE_DumpSim");
   analysisManager->OpenFile();
 
   // Create 1-dimensional histogram
   //analysisManager->CreateH1("Egamma", "", 100000, 0, 100000);
-  analysisManager->CreateNtuple("TAMU_ALP", "TAMU_ALP");
+  analysisManager->CreateNtuple("DUNE_DumpSim", "DUNE_DumpSim");
   analysisManager->CreateNtupleSColumn("proc");
-  analysisManager->CreateNtupleDColumn("Egamma");
+  analysisManager->CreateNtupleDColumn("KE");
   analysisManager->CreateNtupleDColumn("x");
   analysisManager->CreateNtupleDColumn("y");
   analysisManager->CreateNtupleDColumn("z");
@@ -112,8 +112,6 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   analysisManager->CreateNtupleDColumn("pdir_z");
   analysisManager->CreateNtupleSColumn("pid");
   analysisManager->CreateNtupleSColumn("poststep_pid");
-  analysisManager->CreateNtupleDColumn("inTarget");
-  analysisManager->CreateNtupleDColumn("intoDetector");
   analysisManager->FinishNtuple();
 }
 

@@ -42,10 +42,7 @@
 
 B1SteppingAction::B1SteppingAction(B1EventAction* eventAction)
 : G4UserSteppingAction(),
-  fEventAction(eventAction),
-  fScoringVolume(0),
-  fTargetVolume(0),
-  fWorldVolume(0)
+  fEventAction(eventAction)
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -57,39 +54,6 @@ B1SteppingAction::~B1SteppingAction()
 
 void B1SteppingAction::UserSteppingAction(const G4Step* step)
 {
-  if (!fScoringVolume) {
-    const B1DetectorConstruction* detectorConstruction
-      = static_cast<const B1DetectorConstruction*>
-        (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-    fScoringVolume = detectorConstruction->GetScoringVolume();
-  }
-  const B1DetectorConstruction* detectorConstruction
-    = static_cast<const B1DetectorConstruction*>
-      (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-  fWorldVolume = detectorConstruction->GetWorldVolume();
-  //fDetectorVolume = detectorConstruction->GetDetectorVolume();
-
-  // get volume of the current step
-  G4LogicalVolume* volume
-    = step->GetPreStepPoint()->GetTouchableHandle()
-      ->GetVolume()->GetLogicalVolume();
-
-  // check if we are in scoring volume
-  //if (volume != fScoringVolume) return;
-
-  // collect energy deposited in this step
-//  G4double edepStep = step->GetTotalEnergyDeposit();
-//  fEventAction->AddEdep(edepStep);
-
-  //G4Track* track = step->GetTrack();
-  //G4cout << track->GetParticleDefinition()->GetParticleName() << G4std::endl;
-  //G4cout << "Total Energy: " << track->GetKineticEnergy() << G4std::endl;
-  //G4cout << "Edep: " << edepStep << G4std::endl;
-
-  //G4String processName = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
-  //G4cout << step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() << G4std::endl;
-  //if( step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "eBrem" )
-  //  G4cout << step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() << G4std::endl;
   auto analysisManager = G4AnalysisManager::Instance();
 
   const std::vector<const G4Track*>* secondary = step->GetSecondaryInCurrentStep();
@@ -108,8 +72,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
     analysisManager->FillNtupleDColumn(10, (G4double)(*secondary)[lp]->GetMomentumDirection().getZ());
     analysisManager->FillNtupleSColumn(11, (*secondary)[lp]->GetDefinition()->GetParticleName() );
     analysisManager->FillNtupleSColumn(12, step->GetTrack()->GetParticleDefinition()->GetParticleName());
-    analysisManager->FillNtupleDColumn(13, (volume == fScoringVolume)?1:0);
-    analysisManager->FillNtupleDColumn(14, (volume == fDetectorVolume)?1:0);
     analysisManager->AddNtupleRow();
   }
 }

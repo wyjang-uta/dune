@@ -49,6 +49,9 @@ set(EXAMPLEB1_SCRIPTS
   run1.mac
   run2.mac
   vis.mac
+  scripts/utat3/generate_runscripts.sh
+  scripts/utat3/submit_analysis.sh
+  scripts/utat3/submit.sh
   )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})

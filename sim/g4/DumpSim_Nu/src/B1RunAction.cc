@@ -93,7 +93,9 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   // Default settings
   analysisManager->SetNtupleMerging(true);
   analysisManager->SetVerboseLevel(1);
-  analysisManager->SetFileName("DUNE_DumpSim");
+  G4String outputFileName = "DUNE_DumpSim_Run";
+  G4String seedString = std::to_string(G4Random::getTheSeed());
+  analysisManager->SetFileName(outputFileName+seedString);
   analysisManager->OpenFile();
 
   // Create 1-dimensional histogram

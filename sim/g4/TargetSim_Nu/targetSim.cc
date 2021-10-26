@@ -66,12 +66,18 @@ int main(int argc,char** argv)
 
   // Optionally: choose a different Random engine
   G4Random::setTheEngine(new CLHEP::MTwistEngine);
+  if( argc == 3 )
+  {
+    G4long seed = atoi(argv[2]);
+    G4Random::setTheSeed(seed);
+  }
 
   // Construct the default run manager
   //
 #ifdef G4MULTITHREADED
   G4MTRunManager* runManager = new G4MTRunManager;
-  runManager->SetNumberOfThreads(8);
+  G4int nThreads = G4Threading::G4GetNumberOfCores();
+  runManager->SetNumberOfThreads(nThreads);
 #else
   G4RunManager* runManager = new G4RunManager;
 #endif

@@ -53,6 +53,7 @@ class TargetSim_RunAction : public G4UserRunAction
     virtual void   EndOfRunAction(const G4Run*);
 
   private:
+    G4string outputPath;
 };
 
 #endif

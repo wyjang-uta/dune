@@ -40,11 +40,7 @@
 #include "G4PhysListFactory.hh"
 #include "G4StepLimiterPhysics.hh"
 #include "G4VModularPhysicsList.hh"
-#include "QBBC.hh"
-#include "FTFP_BERT.hh"
 #include "QGSP_BIC_AllHP.hh"
-#include "G4DecayPhysics.hh"
-#include "G4Decay.hh"
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"

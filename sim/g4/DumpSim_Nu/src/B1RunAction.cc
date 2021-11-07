@@ -45,29 +45,17 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B1RunAction::B1RunAction()
-: G4UserRunAction(),
-  fEdep(0.),
-  fEdep2(0.)
+: G4UserRunAction()
 {
-  // add new units for dose
-  //
-  const G4double milligray = 1.e-3*gray;
-  const G4double microgray = 1.e-6*gray;
-  const G4double nanogray  = 1.e-9*gray;
-  const G4double picogray  = 1.e-12*gray;
-
-  new G4UnitDefinition("milligray", "milliGy" , "Dose", milligray);
-  new G4UnitDefinition("microgray", "microGy" , "Dose", microgray);
-  new G4UnitDefinition("nanogray" , "nanoGy"  , "Dose", nanogray);
-  new G4UnitDefinition("picogray" , "picoGy"  , "Dose", picogray); 
-
-  // Register accumulable to the accumulable manager
-  G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-  accumulableManager->RegisterAccumulable(fEdep);
-  accumulableManager->RegisterAccumulable(fEdep2);
-
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+B1RunAction::B1RunAction(const G4String* outfile_path)
+: G4UserRunAction(),
+  output_path(outfile_path)
+{
+}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B1RunAction::~B1RunAction()
@@ -93,7 +81,7 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   // Default settings
   analysisManager->SetNtupleMerging(true);
   analysisManager->SetVerboseLevel(1);
-  G4String outputFileName = "DUNE_DumpSim_Run";
+  G4String outputFileName = output_path->data();
   G4String seedString = std::to_string(G4Random::getTheSeed());
   analysisManager->SetFileName(outputFileName+seedString);
   analysisManager->OpenFile();
@@ -140,12 +128,4 @@ void B1RunAction::EndOfRunAction(const G4Run* /*run*/)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B1RunAction::AddEdep(G4double edep)
-{
-  fEdep  += edep;
-  fEdep2 += edep*edep;
-}
-
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

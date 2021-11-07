@@ -58,12 +58,23 @@ int main(int argc,char** argv)
     ui = new G4UIExecutive(argc, argv);
   }
 
+  G4long seed;
   // Optionally: choose a different Random engine
   G4Random::setTheEngine(new CLHEP::MTwistEngine);
   if( argc == 3 )
   {
-    G4long seed = atoi(argv[2]);
+    seed = atoi(argv[2]);
     G4Random::setTheSeed(seed);
+  }
+
+  // Batch job mode
+  G4String output_path;
+  if( argc == 4 )
+  {
+    seed = atoi(argv[2]);
+    G4Random::setTheSeed(seed);
+
+    output_path.append(argv[3]);
   }
 
   // Construct the default run manager
@@ -87,7 +98,7 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(physicsList);
 
   // User action initialization
-  runManager->SetUserInitialization(new B1ActionInitialization());
+  runManager->SetUserInitialization(new B1ActionInitialization(&output_path));
 
   // Initialize visualization
   //

@@ -31,6 +31,7 @@
 #define B1ActionInitialization_h 1
 
 #include "G4VUserActionInitialization.hh"
+#include "G4String.hh"
 
 /// Action initialization class.
 
@@ -38,10 +39,14 @@ class B1ActionInitialization : public G4VUserActionInitialization
 {
   public:
     B1ActionInitialization();
+    B1ActionInitialization(const G4String* output_path);
     virtual ~B1ActionInitialization();
 
     virtual void BuildForMaster() const;
     virtual void Build() const;
+
+  private:
+    const G4String* output_path;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

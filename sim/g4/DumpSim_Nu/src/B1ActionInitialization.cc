@@ -41,6 +41,13 @@ B1ActionInitialization::B1ActionInitialization()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+B1ActionInitialization::B1ActionInitialization(const G4String* outfile_path)
+ : G4VUserActionInitialization(),
+  output_path(outfile_path)
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 B1ActionInitialization::~B1ActionInitialization()
 {}
 
@@ -48,7 +55,7 @@ B1ActionInitialization::~B1ActionInitialization()
 
 void B1ActionInitialization::BuildForMaster() const
 {
-  B1RunAction* runAction = new B1RunAction;
+  B1RunAction* runAction = new B1RunAction(output_path);
   SetUserAction(runAction);
 }
 
@@ -58,7 +65,7 @@ void B1ActionInitialization::Build() const
 {
   SetUserAction(new B1PrimaryGeneratorAction);
 
-  B1RunAction* runAction = new B1RunAction;
+  B1RunAction* runAction = new B1RunAction(output_path);
   SetUserAction(runAction);
   
   B1EventAction* eventAction = new B1EventAction(runAction);

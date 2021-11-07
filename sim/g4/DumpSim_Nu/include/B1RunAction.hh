@@ -46,17 +46,15 @@ class B1RunAction : public G4UserRunAction
 {
   public:
     B1RunAction();
+    B1RunAction(const G4String* outfile_path);
     virtual ~B1RunAction();
 
     // virtual G4Run* GenerateRun();
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
 
-    void AddEdep (G4double edep);
-
   private:
-    G4Accumulable<G4double> fEdep;
-    G4Accumulable<G4double> fEdep2;
+    const G4String* output_path;
 };
 
 #endif

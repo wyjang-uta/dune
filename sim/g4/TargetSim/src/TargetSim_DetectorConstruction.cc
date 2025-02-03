@@ -68,18 +68,6 @@ G4VPhysicalVolume* TargetSim_DetectorConstruction::Construct()
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
 
-  // Parameters of the target geometry
-  //	- a cylindrical target with radius of 0.85 cm and 1.5 m length
-  //	  composed by graphite material.
-  G4double radius = 0.85 * cm;
-  G4double length = 1.5 * m;
-  // We deprecate the graphite definition using NIST database since it has some problem with cross-section database.
-  //G4Material* target_mat = nist->FindOrBuildMaterial("G4_GRAPHITE");
-  G4double density = 2.267 * g/cm3;
-  G4double a = 12.0107 * g/mole;
-  G4double z = 6.0;
-  G4Material* target_mat = new G4Material("graphite", z, a, density);
-
   // Option to switch on/off checking of volumes overlaps
   //
   G4bool checkOverlaps = true;
@@ -113,6 +101,19 @@ G4VPhysicalVolume* TargetSim_DetectorConstruction::Construct()
   //
   // Graphite target
   //
+
+  // Parameters of the target geometry
+  //	- a cylindrical target with radius of 0.85 cm and 1.5 m length
+  //	  composed by graphite material.
+  G4double radius = 0.85 * cm;
+  G4double length = 1.5 * m;
+  // We deprecate the graphite definition using NIST database since it has some problem with cross-section database.
+  //G4Material* target_mat = nist->FindOrBuildMaterial("G4_GRAPHITE");
+  G4double density = 2.267 * g/cm3;
+  G4double a = 12.0107 * g/mole;
+  G4double z = 6.0;
+  G4Material* target_mat = new G4Material("graphite", z, a, density);
+
   G4Tubs* target =
     new G4Tubs("target",
         0,              // inner radius

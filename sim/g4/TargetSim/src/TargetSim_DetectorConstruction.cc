@@ -87,8 +87,8 @@ G4VPhysicalVolume* TargetSim_DetectorConstruction::Construct()
   //
   // World
   //
-  G4double world_sizeXY = 1.5*radius;
-  G4double world_sizeZ  = 1.5*length;
+  G4double world_sizeXY = 2.5*radius;
+  G4double world_sizeZ  = 2.5*length;
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
   G4Box* solidWorld =
@@ -123,7 +123,7 @@ G4VPhysicalVolume* TargetSim_DetectorConstruction::Construct()
 
   G4LogicalVolume* logicTarget =
     new G4LogicalVolume(target,            //its solid
-                        env_mat,             //its material
+                        target_mat,             //its material
                         "Target");         //its name
 
   new G4PVPlacement(0,                       //no rotation

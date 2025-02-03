@@ -40,10 +40,6 @@
 #include "G4PhysListFactory.hh"
 #include "G4StepLimiterPhysics.hh"
 #include "G4VModularPhysicsList.hh"
-#include "QBBC.hh"
-#include "FTFP_BERT.hh"
-#include "QGSP_BIC_AllHP.hh"
-#include "QGSP_BIC.hh"
 #include "QGSP_BERT.hh"
 #include "G4DecayPhysics.hh"
 #include "G4Decay.hh"
@@ -71,7 +67,8 @@ int main(int argc,char** argv)
   //
 #ifdef G4MULTITHREADED
   G4MTRunManager* runManager = new G4MTRunManager;
-  runManager->SetNumberOfThreads(8);
+  G4int nThreads = G4Threading::G4GetNumberOfCores();
+  runManager->SetNumberOfThreads(nThreads);
 #else
   G4RunManager* runManager = new G4RunManager;
 #endif
@@ -82,23 +79,9 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new TargetSim_DetectorConstruction());
 
   // Physics list
-  /*
-  G4VModularPhysicsList* physicsList = new FTFP_BERT;
-  physicsList->RegisterPhysics(new G4StepLimiterPhysics());
-  runManager->SetUserInitialization(physicsList);
-  */
 
-  /*
-  G4VModularPhysicsList* physicsList = new QBBC;
+  G4VModularPhysicsList* physicsList = new QGSP_BERT; // changed from QGSP_BIC_AllHP Oct 10 2024
   physicsList->SetVerboseLevel(0);
-  runManager->SetUserInitialization(physicsList);
-  */
-
-  G4VModularPhysicsList* physicsList = new QGSP_BIC_AllHP;
-  //G4VModularPhysicsList* physicsList = new QGSP_BIC;
-  //G4VModularPhysicsList* physicsList = new QGSP_BERT;
-  physicsList->SetVerboseLevel(0);
-  //physicsList->RegisterPhysics(new G4DecayPhysics);
   runManager->SetUserInitialization(physicsList);
 
 
@@ -117,13 +100,13 @@ int main(int argc,char** argv)
 
   // Process macro or start UI session
   //
-  if ( ! ui ) {
+  if ( !ui ) {
     // batch mode
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
     UImanager->ApplyCommand(command+fileName);
   }
-  else { 
+  else {
     // interactive mode
     UImanager->ApplyCommand("/control/execute init_vis.mac");
     ui->SessionStart();
